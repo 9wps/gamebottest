@@ -18,6 +18,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
         #score {
             position: absolute;
@@ -25,12 +26,9 @@
             font-size: 24px;
             color: white;
         }
-        #frog {
-            display: none; /* إزالة صورة الضفدع الصغيرة */
-        }
         #coin {
-            width: 150px; /* تكبير حجم صورة العملة */
-            height: 150px;
+            width: 200px; /* زيادة حجم العملة */
+            height: 200px;
             background-image: url('https://github.com/9wps/-ph/blob/main/Picsart_24-08-23_07-23-55-960.png?raw=true');
             background-size: cover;
             position: relative;
@@ -55,33 +53,36 @@
             top: 0;
             left: 0;
         }
+        #progress-info {
+            margin-top: 10px;
+            font-size: 18px;
+            color: white;
+        }
         #message {
             margin-top: 20px;
             font-size: 18px;
             color: red;
         }
         #game-controls {
+            position: absolute;
+            bottom: 10px; /* تحريك المربعين إلى الأسفل */
             display: flex;
             justify-content: space-between;
             width: 80%;
             max-width: 500px;
-            margin-top: 20px;
         }
         .control-box {
             width: 48%;
             background-color: rgba(255, 255, 255, 0.7);
             border-radius: 15px;
-            padding: 20px;
+            padding: 10px; /* تصغير حجم المربعين */
             text-align: center;
             cursor: pointer;
         }
         .control-box h2 {
             margin: 0;
-            font-size: 20px;
+            font-size: 18px; /* تصغير حجم النص */
             color: #333;
-        }
-        .control-box.hidden {
-            display: none; /* إخفاء الواجهة عند البداية */
         }
         #mining-content, #referral-content {
             display: none; /* إخفاء محتوى التعدين والإحالة */
@@ -102,6 +103,7 @@
     <div id="progress-container">
         <div id="progress-bar"></div>
     </div>
+    <div id="progress-info">Clicks left: 500</div>
     <div id="message"></div>
 
     <div id="game-controls">
@@ -119,7 +121,7 @@
     </div>
     <div id="referral-content" class="hidden">
         <h2>Referral Friends</h2>
-        <p>More details coming soon...</p>
+        <p>Coming soon...</p>
     </div>
 
     <script>
@@ -127,6 +129,7 @@
         let maxClicks = 500;
         let remainingClicks = maxClicks;
         let canClick = true;
+        let refillInterval; // متغير لتخزين فاصل التوقيت لإعادة تعبئة الشريط
 
         // تحديث عدد النقاط
         function updateScore() {
@@ -138,14 +141,23 @@
         function updateProgressBar() {
             let progressBar = document.getElementById('progress-bar');
             progressBar.style.width = `${(remainingClicks / maxClicks) * 100}%`;
+            document.getElementById('progress-info').innerText = `Clicks left: ${remainingClicks}`;
         }
 
         // التعامل مع نقرة على العملة
         document.getElementById('coin').addEventListener('click', function() {
-            if (canClick) {
+            if (canClick && remainingClicks > 0) {
                 score++;
+                remainingClicks--;
                 updateScore();
+                updateProgressBar();
                 animateCoin();
+
+                if (remainingClicks === 0) {
+                    canClick = false;
+                    document.getElementById('message').innerText = 'Please wait before clicking again!';
+                    setTimeout(refillClicks, 3000);
+                }
             }
         });
 
@@ -160,8 +172,8 @@
 
         // عملية تعبئة النقاط
         function refillClicks() {
-            let refillRate = 5;
-            let refillInterval = setInterval(function() {
+            let refillRate = 1; // تقليل معدل إعادة التعبئة
+            refillInterval = setInterval(function() {
                 if (remainingClicks < maxClicks) {
                     remainingClicks += refillRate;
                     if (remainingClicks > maxClicks) {
@@ -182,13 +194,13 @@
 
         // التعامل مع النقر على مربع التعدين
         document.getElementById('mining-box').addEventListener('click', function() {
-            document.getElementById('mining-content').classList.toggle('hidden');
+            document.getElementById('mining-content').classList.remove('hidden');
             document.getElementById('referral-content').classList.add('hidden');
         });
 
         // التعامل مع النقر على مربع الإحالة
         document.getElementById('referral-box').addEventListener('click', function() {
-            document.getElementById('referral-content').classList.toggle('hidden');
+            document.getElementById('referral-content').classList.remove('hidden');
             document.getElementById('mining-content').classList.add('hidden');
         });
     </script>
