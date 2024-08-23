@@ -32,6 +32,17 @@
             background-size: cover;
             cursor: pointer;
             user-select: none;
+            position: relative;
+        }
+        #coin {
+            width: 100px;
+            height: 100px;
+            background-image: url('https://github.com/9wps/-ph/blob/main/Picsart_24-08-23_07-23-55-960.png'); /* استبدل بـ URL الخاص بصورة العملة */
+            background-size: cover;
+            position: absolute;
+            top: -120px; /* وضع الصورة فوق منطقة النقر */
+            cursor: pointer;
+            user-select: none;
         }
         #progress-container {
             width: 80%;
@@ -82,7 +93,9 @@
 </head>
 <body>
     <div id="score">Score: 0</div>
-    <div id="frog"></div>
+    <div id="frog">
+        <div id="coin"></div>
+    </div>
     <div id="progress-container">
         <div id="progress-bar"></div>
     </div>
@@ -138,9 +151,28 @@
             }
         });
 
+        // التعامل مع نقرة على العملة
+        document.getElementById('coin').addEventListener('click', function() {
+            if (canClick) {
+                score++;
+                updateScore();
+                animateCoin();
+            }
+        });
+
+        // حركة العملة
+        function animateCoin() {
+            let coin = document.getElementById('coin');
+            coin.style.transition = 'transform 0.3s ease';
+            coin.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                coin.style.transform = 'translateY(0)';
+            }, 300);
+        }
+
         // عملية تعبئة النقاط
         function refillClicks() {
-            let refillRate = 2; // عدد النقاط التي يتم تعبئتها في كل ثانية
+            let refillRate = 5; // عدد النقاط التي يتم تعبئتها في كل ثانية
             refillInterval = setInterval(function() {
                 if (remainingClicks < maxClicks) {
                     remainingClicks += refillRate;
