@@ -3,62 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Click Game</title>
+    <title>Click Frog Game</title>
     <style>
         body {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
         }
-        #circle {
-            width: 100px;
-            height: 100px;
-            background-color: #3498db;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 20px;
-            font-family: Arial, sans-serif;
+        #frog {
+            width: 150px;
+            height: 150px;
+            background-image: url('https://github.com/9wps/-ph/blob/main/Snapchat-774193514.jpg'); /* استبدل بـ URL الخاص بصورة الضفدع */
+            background-size: cover;
             cursor: pointer;
             user-select: none;
         }
         #score {
-            margin-top: 20px;
             font-size: 24px;
+            font-family: Arial, sans-serif;
+        }
+        #progress-container {
+            width: 300px;
+            height: 30px;
+            background-color: #ddd;
+            border-radius: 15px;
+            margin-top: 20px;
+            position: relative;
+        }
+        #progress-bar {
+            height: 100%;
+            width: 100%;
+            background-color: #3498db;
+            border-radius: 15px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: red;
             font-family: Arial, sans-serif;
         }
     </style>
 </head>
 <body>
-    <div id="circle">Click</div>
     <div id="score">Score: 0</div>
+    <div id="frog"></div>
+    <div id="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+    <div id="message"></div>
 
     <script>
         let score = 0;
-        let clicks = 0;
         let maxClicks = 500;
-        let timeLimit = 10 * 60 * 1000; // 10 دقائق
-        let lastClickTime = Date.now() - timeLimit;
+        let remainingClicks = maxClicks;
+        let clickDelay = 2000; // فترة الانتظار بين النقرات (2 ثانية)
+        let canClick = true;
+        let progressInterval;
+        let refillInterval;
 
-        document.getElementById('circle').addEventListener('click', function() {
-            let currentTime = Date.now();
+        // تحديث عدد النقاط وعرضه
+        function updateScore() {
+            document.getElementById('score').innerText = `Score: ${score}`;
+        }
 
-            if (clicks < maxClicks && (currentTime - lastClickTime) >= timeLimit) {
+        // تحديث شريط التقدم
+        function updateProgressBar() {
+            let progressBar = document.getElementById('progress-bar');
+            progressBar.style.width = `${(remainingClicks / maxClicks) * 100}%`;
+        }
+
+        // التعامل مع نقرة على الضفدع
+        document.getElementById('frog').addEventListener('click', function() {
+            if (canClick && remainingClicks > 0) {
                 score++;
-                clicks++;
-                lastClickTime = currentTime;
-                document.getElementById('score').innerText = `Score: ${score}`;
-            } else if (clicks >= maxClicks) {
-                alert("You have reached the maximum clicks for this period. Try again later!");
+                remainingClicks--;
+                updateScore();
+                updateProgressBar();
+                document.getElementById('message').innerText = '';
+
+                if (remainingClicks === 0) {
+                    canClick = false;
+                    document.getElementById('message').innerText = 'Please wait before clicking again!';
+                    setTimeout(refillClicks, 3000); // الانتظار 3 ثوانٍ قبل بدء عملية التعبئة
+                }
             } else {
-                alert("Please wait before clicking again!");
+                document.getElementById('message').innerText = 'Please wait before clicking again!';
             }
         });
+
+        // عملية تعبئة النقاط
+        function refillClicks() {
+            let refillRate = 5; // عدد النقاط التي يتم تعبئتها في كل ثانية
+            refillInterval = setInterval(function() {
+                if (remainingClicks < maxClicks) {
+                    remainingClicks += refillRate;
+                    if (remainingClicks > maxClicks) {
+                        remainingClicks = maxClicks;
+                    }
+                    updateProgressBar();
+                } else {
+                    clearInterval(refillInterval);
+                    canClick = true;
+                    document.getElementById('message').innerText = '';
+                }
+            }, 1000); // كل ثانية
+        }
+
+        // إعدادات أولية
+        updateScore();
+        updateProgressBar();
     </script>
 </body>
 </html>
