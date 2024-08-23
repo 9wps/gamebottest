@@ -10,7 +10,7 @@
             padding: 0;
             height: 100vh;
             width: 100vw;
-            background-image: url('https://github.com/9wps/-ph/blob/main/Snapchat-774193514.jpg');
+            background-image: url('https://github.com/9wps/-ph/blob/main/Snapchat-774193514.jpg?raw=true');
             background-size: cover;
             background-position: center;
             font-family: Arial, sans-serif;
@@ -28,7 +28,7 @@
         #frog {
             width: 150px;
             height: 150px;
-            background-image: url('https://github.com/9wps/-ph/blob/main/Snapchat-774193514.jpg');
+            background-image: url('https://github.com/9wps/-ph/blob/main/Snapchat-774193514.jpg?raw=true');
             background-size: cover;
             cursor: pointer;
             user-select: none;
@@ -37,7 +37,7 @@
         #coin {
             width: 100px;
             height: 100px;
-            background-image: url('https://github.com/9wps/-ph/blob/main/Picsart_24-08-23_07-23-55-960.png');
+            background-image: url('https://github.com/9wps/-ph/blob/main/Picsart_24-08-23_07-23-55-960.png?raw=true');
             background-size: cover;
             position: absolute;
             top: -120px;
@@ -67,14 +67,24 @@
             font-size: 18px;
             color: red;
         }
-        #referral-container {
+        #game-controls {
+            display: flex;
+            justify-content: space-between;
             width: 80%;
             max-width: 500px;
+            margin-top: 20px;
+        }
+        .control-box {
+            width: 48%;
             background-color: rgba(255, 255, 255, 0.7);
             border-radius: 15px;
             padding: 20px;
-            margin-top: 20px;
             text-align: center;
+        }
+        .control-box h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #333;
         }
     </style>
 </head>
@@ -88,9 +98,15 @@
     </div>
     <div id="message"></div>
 
-    <div id="referral-container">
-        <div>Referral Friends:</div>
-        <div>More details coming soon...</div>
+    <div id="game-controls">
+        <div class="control-box" id="mining-box">
+            <h2>Mining FRG</h2>
+            <p>Details about mining FRG will be added here.</p>
+        </div>
+        <div class="control-box" id="referral-box">
+            <h2>Referral Friends</h2>
+            <p>More details coming soon...</p>
+        </div>
     </div>
 
     <script>
