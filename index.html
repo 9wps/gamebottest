@@ -26,21 +26,14 @@
             color: white;
         }
         #frog {
-            width: 150px;
-            height: 150px;
-            background-image: url('https://github.com/9wps/-ph/blob/main/Snapchat-774193514.jpg?raw=true');
-            background-size: cover;
-            cursor: pointer;
-            user-select: none;
-            position: relative;
+            display: none; /* إزالة صورة الضفدع الصغيرة */
         }
         #coin {
-            width: 100px;
-            height: 100px;
+            width: 150px; /* تكبير حجم صورة العملة */
+            height: 150px;
             background-image: url('https://github.com/9wps/-ph/blob/main/Picsart_24-08-23_07-23-55-960.png?raw=true');
             background-size: cover;
-            position: absolute;
-            top: -120px;
+            position: relative;
             cursor: pointer;
             user-select: none;
             transition: transform 0.3s ease;
@@ -80,19 +73,32 @@
             border-radius: 15px;
             padding: 20px;
             text-align: center;
+            cursor: pointer;
         }
         .control-box h2 {
             margin: 0;
             font-size: 20px;
             color: #333;
         }
+        .control-box.hidden {
+            display: none; /* إخفاء الواجهة عند البداية */
+        }
+        #mining-content, #referral-content {
+            display: none; /* إخفاء محتوى التعدين والإحالة */
+            position: absolute;
+            bottom: 80px;
+            width: 80%;
+            max-width: 500px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div id="score">FRG: 0</div>
-    <div id="frog">
-        <div id="coin"></div>
-    </div>
+    <div id="coin"></div>
     <div id="progress-container">
         <div id="progress-bar"></div>
     </div>
@@ -101,12 +107,19 @@
     <div id="game-controls">
         <div class="control-box" id="mining-box">
             <h2>Mining FRG</h2>
-            <p>Details about mining FRG will be added here.</p>
         </div>
         <div class="control-box" id="referral-box">
             <h2>Referral Friends</h2>
-            <p>More details coming soon...</p>
         </div>
+    </div>
+
+    <div id="mining-content" class="hidden">
+        <h2>Mining FRG</h2>
+        <p>Details about mining FRG will be added here.</p>
+    </div>
+    <div id="referral-content" class="hidden">
+        <h2>Referral Friends</h2>
+        <p>More details coming soon...</p>
     </div>
 
     <script>
@@ -126,25 +139,6 @@
             let progressBar = document.getElementById('progress-bar');
             progressBar.style.width = `${(remainingClicks / maxClicks) * 100}%`;
         }
-
-        // التعامل مع نقرة على الضفدع
-        document.getElementById('frog').addEventListener('click', function() {
-            if (canClick && remainingClicks > 0) {
-                score++;
-                remainingClicks--;
-                updateScore();
-                updateProgressBar();
-                document.getElementById('message').innerText = '';
-
-                if (remainingClicks === 0) {
-                    canClick = false;
-                    document.getElementById('message').innerText = 'Please wait before clicking again!';
-                    setTimeout(refillClicks, 3000);
-                }
-            } else {
-                document.getElementById('message').innerText = 'Please wait before clicking again!';
-            }
-        });
 
         // التعامل مع نقرة على العملة
         document.getElementById('coin').addEventListener('click', function() {
@@ -185,6 +179,18 @@
         // إعدادات أولية
         updateScore();
         updateProgressBar();
+
+        // التعامل مع النقر على مربع التعدين
+        document.getElementById('mining-box').addEventListener('click', function() {
+            document.getElementById('mining-content').classList.toggle('hidden');
+            document.getElementById('referral-content').classList.add('hidden');
+        });
+
+        // التعامل مع النقر على مربع الإحالة
+        document.getElementById('referral-box').addEventListener('click', function() {
+            document.getElementById('referral-content').classList.toggle('hidden');
+            document.getElementById('mining-content').classList.add('hidden');
+        });
     </script>
 </body>
 </html>
