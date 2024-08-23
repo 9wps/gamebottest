@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Click Game</title>
+    <title>Frog Coin Game</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             height: 100vh;
             width: 100vw;
-            background-image: url('https://github.com/9wps/-ph/blob/main/Snapchat-774193514.jpg?raw=true');
+            background-image: url('https://github.com/9wps/-ph/blob/main/Snapchat-774193514.jpg');
             background-size: cover;
             background-position: center;
             font-family: Arial, sans-serif;
@@ -21,14 +21,14 @@
         }
         #score {
             position: absolute;
-            top: 2
+            top: 20px;
             font-size: 24px;
             color: white;
         }
         #frog {
             width: 150px;
             height: 150px;
-            background-image: url('https://github.com/9wps/-ph/blob/main/Snapchat-774193514.jpg'); /* استبدل بـ URL الخاص بصورة الضفدع */
+            background-image: url('https://github.com/9wps/-ph/blob/main/Snapchat-774193514.jpg');
             background-size: cover;
             cursor: pointer;
             user-select: none;
@@ -37,13 +37,13 @@
         #coin {
             width: 100px;
             height: 100px;
-            background-image: url('https://github.com/9wps/-ph/blob/main/Picsart_24-08-23_07-23-55-960.png'); /* استبدل بـ URL الخاص بصورة العملة */
+            background-image: url('https://github.com/9wps/-ph/blob/main/Picsart_24-08-23_07-23-55-960.png');
             background-size: cover;
             position: absolute;
-            top: -120px; /* وضع الصورة فوق منطقة النقر */
+            top: -120px;
             cursor: pointer;
             user-select: none;
-            transition: transform 0.3s ease; /* التأثير عند الحركة */
+            transition: transform 0.3s ease;
         }
         #progress-container {
             width: 80%;
@@ -74,14 +74,12 @@
             border-radius: 15px;
             padding: 20px;
             margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div id="score">Score: 0</div>
+    <div id="score">FRG: 0</div>
     <div id="frog">
         <div id="coin"></div>
     </div>
@@ -96,16 +94,15 @@
     </div>
 
     <script>
-        let score = 0;
+        let score = parseInt(localStorage.getItem('score')) || 0;
         let maxClicks = 500;
         let remainingClicks = maxClicks;
         let canClick = true;
-        let progressInterval;
-        let refillInterval;
 
         // تحديث عدد النقاط
         function updateScore() {
-            document.getElementById('score').innerText = `Score: ${score}`;
+            document.getElementById('score').innerText = `FRG: ${score}`;
+            localStorage.setItem('score', score);
         }
 
         // تحديث شريط التقدم
@@ -126,7 +123,7 @@
                 if (remainingClicks === 0) {
                     canClick = false;
                     document.getElementById('message').innerText = 'Please wait before clicking again!';
-                    setTimeout(refillClicks, 3000); // الانتظار 3 ثوانٍ قبل بدء عملية التعبئة
+                    setTimeout(refillClicks, 3000);
                 }
             } else {
                 document.getElementById('message').innerText = 'Please wait before clicking again!';
@@ -153,8 +150,8 @@
 
         // عملية تعبئة النقاط
         function refillClicks() {
-            let refillRate = 5; // عدد النقاط التي يتم تعبئتها في كل ثانية
-            refillInterval = setInterval(function() {
+            let refillRate = 5;
+            let refillInterval = setInterval(function() {
                 if (remainingClicks < maxClicks) {
                     remainingClicks += refillRate;
                     if (remainingClicks > maxClicks) {
@@ -166,7 +163,7 @@
                     canClick = true;
                     document.getElementById('message').innerText = '';
                 }
-            }, 1000); // كل ثانية
+            }, 1000);
         }
 
         // إعدادات أولية
