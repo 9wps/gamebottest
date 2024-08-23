@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #circle {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+            user-select: none;
+        }
+        #score {
+            margin-top: 20px;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="circle">Click</div>
+    <div id="score">Score: 0</div>
+
+    <script>
+        let score = 0;
+        let clicks = 0;
+        let maxClicks = 500;
+        let timeLimit = 10 * 60 * 1000; // 10 دقائق
+        let lastClickTime = Date.now() - timeLimit;
+
+        document.getElementById('circle').addEventListener('click', function() {
+            let currentTime = Date.now();
+
+            if (clicks < maxClicks && (currentTime - lastClickTime) >= timeLimit) {
+                score++;
+                clicks++;
+                lastClickTime = currentTime;
+                document.getElementById('score').innerText = `Score: ${score}`;
+            } else if (clicks >= maxClicks) {
+                alert("You have reached the maximum clicks for this period. Try again later!");
+            } else {
+                alert("Please wait before clicking again!");
+            }
+        });
+    </script>
+</body>
+</html>
