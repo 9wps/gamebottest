@@ -3,206 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frog Coin Game</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            width: 100vw;
-            background-image: url('https://github.com/9wps/-ph/blob/main/Snapchat-774193514.jpg?raw=true');
-            background-size: cover;
-            background-position: center;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        #score {
-            position: absolute;
-            top: 20px;
-            font-size: 24px;
-            color: white;
-        }
-        #coin {
-            width: 200px; /* زيادة حجم العملة */
-            height: 200px;
-            background-image: url('https://github.com/9wps/-ph/blob/main/Picsart_24-08-23_07-23-55-960.png?raw=true');
-            background-size: cover;
-            position: relative;
-            cursor: pointer;
-            user-select: none;
-            transition: transform 0.3s ease;
-        }
-        #progress-container {
-            width: 80%;
-            height: 30px;
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 15px;
-            margin-top: 20px;
-            position: relative;
-        }
-        #progress-bar {
-            height: 100%;
-            width: 100%;
-            background-color: #3498db;
-            border-radius: 15px;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        #progress-info {
-            margin-top: 10px;
-            font-size: 18px;
-            color: white;
-        }
-        #message {
-            margin-top: 20px;
-            font-size: 18px;
-            color: red;
-        }
-        #game-controls {
-            position: absolute;
-            bottom: 10px; /* تحريك المربعين إلى الأسفل */
-            display: flex;
-            justify-content: space-between;
-            width: 80%;
-            max-width: 500px;
-        }
-        .control-box {
-            width: 48%;
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 15px;
-            padding: 10px; /* تصغير حجم المربعين */
-            text-align: center;
-            cursor: pointer;
-        }
-        .control-box h2 {
-            margin: 0;
-            font-size: 18px; /* تصغير حجم النص */
-            color: #333;
-        }
-        #mining-content, #referral-content {
-            display: none; /* إخفاء محتوى التعدين والإحالة */
-            position: absolute;
-            bottom: 80px;
-            width: 80%;
-            max-width: 500px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-        }
-    </style>
+    <title>Game Promo Code Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
 </head>
 <body>
-    <div id="score">FRG: 0</div>
-    <div id="coin"></div>
-    <div id="progress-container">
-        <div id="progress-bar"></div>
-    </div>
-    <div id="progress-info">Clicks left: 500</div>
-    <div id="message"></div>
+    <div class="container">
+        <h1>Game Promo Code Generator</h1>
+        <div class="form-group">
+            <label for="gameSelect">Select Game</label>
+            <select id="gameSelect">
+                <option value="1">Riding Extreme 3D</option>
+                <option value="2">Chain Cube 2048</option>
+                <option value="3">My Clone Army</option>
+                <option value="4">Train Miner</option>
+                <option value="5">MergeAway</option>
+                <option value="6">Twerk Race </option>
+                <option value="7">Polysphere </option>
+                <option value="8">Mow and Trim (NEW)</option>
+                <option value="9">Mud Racing (NEW)</option>
 
-    <div id="game-controls">
-        <div class="control-box" id="mining-box">
-            <h2>Mining FRG</h2>
+            </select>
         </div>
-        <div class="control-box" id="referral-box">
-            <h2>Referral Friends</h2>
-        </div>
-    </div>
 
-    <div id="mining-content" class="hidden">
-        <h2>Mining FRG</h2>
-        <p>Details about mining FRG will be added here.</p>
-    </div>
-    <div id="referral-content" class="hidden">
-        <h2>Referral Friends</h2>
-        <p>Coming soon...</p>
-    </div>
-
-    <script>
-        let score = parseInt(localStorage.getItem('score')) || 0;
-        let maxClicks = 500;
-        let remainingClicks = maxClicks;
-        let canClick = true;
-        let refillInterval; // متغير لتخزين فاصل التوقيت لإعادة تعبئة الشريط
-
-        // تحديث عدد النقاط
-        function updateScore() {
-            document.getElementById('score').innerText = `FRG: ${score}`;
-            localStorage.setItem('score', score);
-        }
-
-        // تحديث شريط التقدم
-        function updateProgressBar() {
-            let progressBar = document.getElementById('progress-bar');
-            progressBar.style.width = `${(remainingClicks / maxClicks) * 100}%`;
-            document.getElementById('progress-info').innerText = `Clicks left: ${remainingClicks}`;
-        }
-
-        // التعامل مع نقرة على العملة
-        document.getElementById('coin').addEventListener('click', function() {
-            if (canClick && remainingClicks > 0) {
-                score++;
-                remainingClicks--;
-                updateScore();
-                updateProgressBar();
-                animateCoin();
-
-                if (remainingClicks === 0) {
-                    canClick = false;
-                    document.getElementById('message').innerText = 'Please wait before clicking again!';
-                    setTimeout(refillClicks, 3000);
-                }
+        <div id="google_translate_element"></div>
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'en', 
+                    includedLanguages: 'en,hi,ta,ru,id,ha,pt', 
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                }, 'google_translate_element');
             }
-        });
+            
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        
 
-        // حركة العملة
-        function animateCoin() {
-            let coin = document.getElementById('coin');
-            coin.style.transform = 'translateY(-20px)';
-            setTimeout(() => {
-                coin.style.transform = 'translateY(0)';
-            }, 300);
-        }
+        
+        <div class="form-group">
+            <label id="keyCountLabel" for="keyCountSelect">Number of keys:</label>
+            <select id="keyCountSelect">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="8">8</option>
+                
+            </select>
+        </div>
+        <button id="startBtn">Generate Keys</button>
+        
+        <div id="progressContainer" class="hidden">
+            <div class="progress-bar">
+                <div id="progressBar"></div>
+            </div>
+            <div id="progressText">0%</div>
+            <div id="progressLog">Starting...</div>
+            <div id="countdownContainer">
+            <p>Next Step will start in: <span id="countdownTimer"></span> seconds </p>
+            </div>
+        </div>
+        <div id="keyContainer" class="hidden">
+            <h3 id="generatedKeysTitle" class="hidden">Generated Keys:</h3>
+            <div id="keysList"></div>
+            <button id="copyAllBtn" class="hidden">Copy All Keys</button>
+            <div id="copyStatus" class="hidden">Copied!</div>
+            <!-- <button id="generateMoreBtn">Generate More Keys</button> -->
+        </div>
 
-        // عملية تعبئة النقاط
-        function refillClicks() {
-            let refillRate = 1; // تقليل معدل إعادة التعبئة
-            refillInterval = setInterval(function() {
-                if (remainingClicks < maxClicks) {
-                    remainingClicks += refillRate;
-                    if (remainingClicks > maxClicks) {
-                        remainingClicks = maxClicks;
-                    }
-                    updateProgressBar();
-                } else {
-                    clearInterval(refillInterval);
-                    canClick = true;
-                    document.getElementById('message').innerText = '';
-                }
-            }, 1000);
-        }
 
-        // إعدادات أولية
-        updateScore();
-        updateProgressBar();
+        <label>
+            <input type="checkbox" id="logCheckbox"> Enable Logs
+        </label>
+        <textarea id="logArea" rows="3" readonly style="width: 100%; resize: none; font-size: 12px; display: none;"></textarea>
 
-        // التعامل مع النقر على مربع التعدين
-        document.getElementById('mining-box').addEventListener('click', function() {
-            document.getElementById('mining-content').classList.remove('hidden');
-            document.getElementById('referral-content').classList.add('hidden');
-        });
+        <div class="mycodes">
+            <p>
+                The Key Generation may take upto 10 mins<br>
+                If you feel its not working then <a href="https://telegram.me/Sam_Dm_bot">Contact Creator</a>
+            </p>
+            <button id="ShowKeysBtn">My Codes</button>
+            <div id="generatedCodesContainer" style="display:none;">
+                <h3>Today's Generated Codes:</h3>
+                <ul id="generatedCodesList"></ul>
+            </div>
 
-        // التعامل مع النقر على مربع الإحالة
-        document.getElementById('referral-box').addEventListener('click', function() {
-            document.getElementById('referral-content').classList.remove('hidden');
-            document.getElementById('mining-content').classList.add('hidden');
-        });
-    </script>
+        </div>
+        <div class="footer">
+            <p>Disclaimer: This tool is for educational purposes only. Use responsibly.
+            <button id="telegramChannelBtn">Check out Our Telegram Channel 🆔</button></p>
+            <button id="creatorChannelBtn">Contact Creator 🤖</button> 
+            
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
+
 </html>
